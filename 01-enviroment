@@ -1,0 +1,34 @@
+# Environment
+
+The lab was built using two virtual machines in VMware Workstation.
+
+## Virtual Machines
+
+### 1. Wazuh Server
+- OS: Ubuntu Desktop
+- Role: SIEM / Wazuh Manager / Dashboard
+- Purpose: Centralized log collection, event analysis, and security monitoring
+
+### 2. Endpoint
+- OS: Ubuntu Server
+- Role: Monitored Linux endpoint with Wazuh agent
+- Purpose: Generate system activity and security events to be collected by the Wazuh server
+
+## Hardware Allocation
+
+### Wazuh Server
+- CPU: 8 cores 
+- RAM: 8 gb
+- Storage: 30gb 
+### Endpoint
+- CPU: 8 cores
+- RAM: 8 gb
+- Storage: 20gb
+## Virtualization Platform
+- Hypervisor: VMware Workstation
+
+## Network Configuration
+
+Both virtual machines were configured using **Bridged networking mode** in VMware Workstation.
+
+Bridged mode allowed each VM to appear as a separate device on the same local network, which provided more reliable communication between the Wazuh server and the monitored endpoint. This configuration worked better than NAT in this lab because it simplified connectivity, made IP addressing easier to verify, and allowed the agent-to-manager communication to function more consistently.
