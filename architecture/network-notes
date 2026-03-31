@@ -1,0 +1,68 @@
+# Network Architecture
+
+This section describes the network design and communication flow of the SOC homelab.
+
+## Overview
+
+The lab environment consists of two virtual machines deployed in VMware Workstation using **Bridged networking mode**. This configuration allows both systems to operate as independent hosts within the same local network, enabling direct communication.
+
+## Architecture Components
+
+* Wazuh Server
+- Role: Central SIEM platform
+- Components:
+  - Wazuh Manager
+  - Wazuh Indexer
+  - Wazuh Dashboard
+- Function:
+  - Collects logs from endpoints
+  - Processes and correlates events
+  - Displays alerts in the dashboard
+
+* Endpoint (Linux Agent)
+- Role: Monitored system
+- Function:
+  - Generates system activity (authentication, commands, file changes)
+  - Sends logs to the Wazuh manager via the Wazuh agent
+
+* Network Configuration
+
+- Hypervisor: VMware Workstation
+- Network Mode: Bridged
+- IP Assignment: DHCP (local network)
+
+Both virtual machines receive IP addresses from the same network segment, allowing seamless communication between the endpoint and the Wazuh server.
+
+* Communication Flow
+
+1. The endpoint generates system events (e.g., login attempts, command execution)
+2. The Wazuh agent collects relevant logs from the system
+3. Logs are securely sent to the Wazuh manager
+4. The manager analyzes and processes the data
+5. The Wazuh dashboard visualizes alerts and events
+
+ *Ports and Services
+
+The following ports are used in the lab:
+
+- 1514 (TCP/UDP): Agent → Manager communication
+- 1515 (TCP): Agent enrollment (authentication service)
+- 55000 (TCP): Wazuh API
+- 443 (HTTPS): Dashboard access
+
+*Connectivity Verification
+
+Connectivity between systems was validated using:
+
+```bash
+ping <WAZUH-SERVER-IP>
+
+Successful responses confirmed that both machines were reachable within the same network.
+
+Design Decision
+
+Bridged networking was selected over NAT to improve connectivity and simplify network troubleshooting. This approach ensured that both virtual machines were directly accessible within the same network, which facilitated agent enrollment and stable log transmission.
+
+Summary
+
+The network architecture provides a simple but effective setup for simulating a SOC environment, where endpoint activity is collected, analyzed, and visualized through a centralized SIEM platform.
